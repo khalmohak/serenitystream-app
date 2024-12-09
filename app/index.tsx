@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
-import { useAppTheme } from '../../constants/theme';
+import { Text } from 'react-native';
+import { useAppTheme } from '../constants/theme';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react-native';
 import { Input } from '@/components/base/Input';
 import { Button } from '@/components/base/Button';
 import { Layout } from '@/components/base/Layout';
+import { useAuth } from '@/contexts/AuthContext';
 
  const LoginScreen: React.FC = () => {
   const theme = useAppTheme();
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('mohakgofficial@gmail.com');
+  const [password, setPassword] = useState('Password1234#');
   const [emailError, setEmailError] = useState('');
+  const { signIn, isAuthenticated , user} = useAuth();
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -21,11 +23,19 @@ import { Layout } from '@/components/base/Layout';
       setEmailError('');
     }
   };
+  
+  const handleSignIn = async ()=>{
+    console.log("logging in")
+     await signIn(email, password)
+  }
 
   return (
     <Layout
       
     >
+      {
+        isAuthenticated ? <Text>LoggedIN</Text> : <Text>{JSON.stringify(user)}</Text>
+      }
         <Input
           label="Email"
           placeholder="Enter your email"
@@ -76,7 +86,7 @@ import { Layout } from '@/components/base/Layout';
           variant="primary"
           size="lg"
           fullWidth
-          onPress={() => console.log('Login pressed')}
+          onPress={handleSignIn}
         >
           Login
         </Button>

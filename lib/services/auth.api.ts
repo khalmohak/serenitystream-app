@@ -11,6 +11,7 @@ export const logIn = async (email: string, password: string) => {
 
     return response.data;
   } catch (error: any) {
+    console.log(JSON.stringify(error))
     throw new Error(error.response?.data?.message || "Login failed");
   }
 };
@@ -29,7 +30,7 @@ export const logout = async () => {
   try {
     await api.post(ROOT_URL + "/logout");
   } catch (error) {
-    // Handle error silently
+    console.log(error);
   }
 };
 
@@ -37,7 +38,8 @@ export const logoutAllDevices = async () => {
   try {
     await api.post(ROOT_URL + "/logout-all");
   } catch (error) {
-    // Handle error silently
+    console.log(error);
+
   }
 };
 

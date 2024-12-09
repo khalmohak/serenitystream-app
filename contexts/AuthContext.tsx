@@ -10,7 +10,7 @@ interface AuthContextType {
   isLoading: boolean;
   isAuthenticated: boolean;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string, name: string) => Promise<void>;
+  signUp: (userData:UserRegister) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -45,15 +45,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signIn = async (email: string, password: string) => {
+    console.log("safasfasfsa")
+
     try {
       const { accessToken, user } = await logIn(email, password);
-      
+      console.log(accessToken, user)
       await SecureStore.setItemAsync('accessToken', accessToken);
       api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
       
       setUser(user);
       setIsAuthenticated(true);
     } catch (error: any) {
+      console.log(error)
       throw new Error(error.response?.data?.message || 'Login failed');
     }
   };
