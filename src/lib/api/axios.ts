@@ -1,9 +1,14 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
+import { Platform } from 'react-native';
 
-const BASE_URL = 'https://b6c9-121-240-3-138.ngrok-free.app/api';
+const BASE_URL = Platform.select({
+  ios: 'http://10.34.30.133:3000/api',    
+  android: 'http://10.0.2.2:3000/api', 
+  default: 'http://10.34.30.133:3000/api'
+});
 
-export const api = axios.create({
+const api = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
 });
@@ -78,3 +83,5 @@ api.interceptors.response.use(
     }
   }
 );
+
+export default api;

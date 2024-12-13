@@ -129,8 +129,8 @@ export const theme: Theme = {
   // Border Radii
   borderRadius: {
     none: 0,
-    sm: 8,
-    base: 12,
+    sm: 4,
+    base: 8,
     lg: 16,
     xl: 24,
     full: 9999,

@@ -1,13 +1,16 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, ActivityIndicator } from 'react-native';
 import { useAppTheme } from '../../constants/theme';
 import { ButtonProps } from '../../types/components';
+import { Lock } from 'lucide-react-native';
 
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
   disabled = false,
   fullWidth = false,
+  isLoading = false,
+  isLocked = false,
   children,
   style,
   onPress,
@@ -65,35 +68,40 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <TouchableOpacity
-      onPress={onPress}
-      disabled={disabled}
-      style={[
-        styles.base,
-        {
-          backgroundColor: variantStyle.backgroundColor,
-          borderColor: variantStyle.borderColor,
-          borderWidth: variantStyle.borderWidth,
-          ...theme.shadows.base[theme.isDark ? 'dark' : 'light'],
-          paddingVertical: sizeStyle.paddingVertical,
-          paddingHorizontal: sizeStyle.paddingHorizontal,
-          borderRadius: theme.borderRadius.base,
-        },
-        fullWidth && styles.fullWidth,
-        disabled && { opacity: 0.5 },
-        style,
-      ]}
-      {...props}
-    >
-      <Text
-        style={{
-          color: variantStyle.textColor,
-          fontSize: sizeStyle.fontSize,
-          fontFamily: theme.typography.fonts.medium,
-        }}
-      >
-        {children}
-      </Text>
-    </TouchableOpacity>
+         onPress={onPress}
+         disabled={disabled || isLoading || isLocked}
+         style={[
+           styles.base,
+           {
+             backgroundColor: variantStyle.backgroundColor,
+             borderColor: variantStyle.borderColor,
+             borderWidth: variantStyle.borderWidth,
+             ...theme.shadows.base[theme.isDark ? 'dark' : 'light'],
+             paddingVertical: sizeStyle.paddingVertical,
+             paddingHorizontal: sizeStyle.paddingHorizontal,
+             borderRadius: theme.borderRadius.base,
+           },
+           fullWidth && styles.fullWidth,
+           (disabled || isLoading || isLocked) && { opacity: 0.5 },
+           style,
+         ]}
+         {...props}
+       >
+         {isLoading ? (
+           <ActivityIndicator color={variantStyle.textColor} />
+         ) : (
+           <Text
+             style={{
+               color: variantStyle.textColor,
+               fontSize: sizeStyle.fontSize,
+               fontFamily: theme.typography.fonts.medium,
+             }}
+           >
+             {children}
+             {/* {isLocked && <Lock color={variantStyle.textColor} size={sizeStyle.fontSize} style={{ marginLeft: theme.spacing.xs }} />} */}
+           </Text>
+         )}
+       </TouchableOpacity>
   );
 };
 

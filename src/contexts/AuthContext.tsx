@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
-import { api } from '../lib/api/axios';
-import { getMe, logIn, logout, register } from '@/lib/services/auth.api';
+import { getMe, logIn, logout, register } from '../lib/services/auth.api';
 
 
 
@@ -27,13 +26,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const checkAuth = async () => {
     try {
-      const token = await SecureStore.getItemAsync('accessToken');
-      if (!token) {
-        throw new Error('No token found');
-      }
-
-      const response = await getMe(); 
-      setUser(response.data.user);
+      const {user} = await getMe(); 
+      setUser(user);
       setIsAuthenticated(true);
     } catch (error) {
       setUser(null);
@@ -45,13 +39,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signIn = async (email: string, password: string) => {
-    console.log("safasfasfsa")
-
     try {
-      const { accessToken, user } = await logIn(email, password);
-      console.log(accessToken, user)
-      await SecureStore.setItemAsync('accessToken', accessToken);
-      api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+      const { user } = await logIn(email, password);
       
       setUser(user);
       setIsAuthenticated(true);
@@ -63,10 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signUp = async (userData:UserRegister) => {
     try {
-      const { accessToken, user } = await register(userData);
-      
-      await SecureStore.setItemAsync('accessToken', accessToken);
-      api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+      const { user } = await register(userData);
       
       setUser(user);
       setIsAuthenticated(true);
@@ -83,8 +69,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setUser(null);
       setIsAuthenticated(false);
-      await SecureStore.deleteItemAsync('accessToken');
-      delete api.defaults.headers.common.Authorization;
     }
   };
 

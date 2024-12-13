@@ -9,6 +9,8 @@ export interface ButtonProps extends Omit<TouchableOpacityProps, 'children'> {
   disabled?: boolean;
   fullWidth?: boolean;
   children: string;
+  isLoading?: boolean;
+  isLocked?: boolean;
 }
 
 export interface InputProps extends Omit<TextInputProps, 'style'> {
