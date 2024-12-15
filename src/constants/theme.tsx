@@ -47,6 +47,8 @@ export const theme: Theme = {
       white: "#FFFFFF",
       black: "#000000",
       transparent: "transparent",
+
+      icon: "#111827",
     },
     dark: {
       // Primary palette
@@ -82,6 +84,8 @@ export const theme: Theme = {
       white: "#FFFFFF",
       black: "#000000",
       transparent: "transparent",
+
+      icon: "#9CA3AF",
     },
   },
 

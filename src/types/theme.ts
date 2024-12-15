@@ -1,4 +1,4 @@
-import { TextStyle, ViewStyle } from 'react-native';
+import { TextStyle, ViewStyle } from "react-native";
 
 export interface ColorScheme {
   primary: string;
@@ -21,6 +21,7 @@ export interface ColorScheme {
   white: string;
   black: string;
   transparent: string;
+  icon: string;
 }
 
 export interface Typography {
@@ -35,9 +36,9 @@ export interface Typography {
     base: number;
     lg: number;
     xl: number;
-    '2xl': number;
-    '3xl': number;
-    '4xl': number;
+    "2xl": number;
+    "3xl": number;
+    "4xl": number;
   };
   lineHeights: {
     tight: number;
@@ -86,15 +87,15 @@ export interface Theme {
   colors: ThemeColors;
   typography: Typography;
   spacing: {
-    '2xs': number;
+    "2xs": number;
     xs: number;
     sm: number;
     base: number;
     lg: number;
     xl: number;
-    '2xl': number;
-    '3xl': number;
-    '4xl': number;
+    "2xl": number;
+    "3xl": number;
+    "4xl": number;
   };
   borderRadius: {
     none: number;
@@ -132,7 +133,7 @@ export interface Theme {
   };
 }
 
-export interface ThemeContextValue extends Omit<Theme, 'colors'> {
+export interface ThemeContextValue extends Omit<Theme, "colors"> {
   colors: ColorScheme;
   isDark: boolean;
 }

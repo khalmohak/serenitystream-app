@@ -7,7 +7,6 @@ interface User {
 }
 
 interface UserRegister {
-  id: string;
   email: string;
   firstName: string;
   lastName: string;

@@ -1,12 +1,13 @@
 import React from "react";
 import { useAuth } from "@/src/contexts/AuthContext";
-import { Redirect } from "expo-router";
+import { Redirect, Slot } from "expo-router";
 import { useAppTheme } from "@/src/constants/theme";
 import { Drawer } from "expo-router/drawer";
 import LoadingScreen from "@/src/components/base/Loading";
 
 export default function AppLayout() {
   const { user, isLoading, isAuthenticated } = useAuth();
+  const { colors } = useAppTheme();
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -15,8 +16,6 @@ export default function AppLayout() {
   if (!isAuthenticated && !isLoading) {
     return <Redirect href={"/login"} />;
   }
-
-  const { colors } = useAppTheme();
 
   return (
     <Drawer

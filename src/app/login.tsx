@@ -6,7 +6,7 @@ import { Text } from "@/src/components/base/CustomText";
 import { Input } from "@/src/components/base/Input";
 import { Button } from "@/src/components/base/Button";
 import { showToast } from "@/src/constants/toastMessage";
-import { router, useNavigation } from "expo-router";
+import { Link, router, useNavigation } from "expo-router";
 import { useAppTheme } from "../constants/theme";
 
 const LoginScreen: React.FC = () => {
@@ -91,6 +91,18 @@ const LoginScreen: React.FC = () => {
           helper="Must be at least 8 characters"
         />
       </FullHeight>
+      <Text style={{ marginBottom: theme.spacing.base, textAlign: "center" }}>
+        New here?{" "}
+        <Link
+          href={"/register"}
+          style={{
+            color: theme.colors.accent,
+            textDecorationLine: "underline",
+          }}
+        >
+          Register
+        </Link>
+      </Text>
       <Button variant="primary" size="lg" fullWidth onPress={handleSignIn}>
         Login
       </Button>
