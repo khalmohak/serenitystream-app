@@ -1,9 +1,10 @@
 import React, { createContext, useContext, ReactNode } from "react";
 import { useColorScheme } from "react-native";
 import { Theme, ThemeContextValue } from "../types/theme";
-import { Dimensions } from 'react-native';
+import { Dimensions } from "react-native";
+import { ToastMessage } from "./toastMessage";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 interface ThemeProviderProps {
@@ -237,6 +238,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   return (
     <ThemeContext.Provider value={themeContext}>
       {children}
+      <ToastMessage />
     </ThemeContext.Provider>
   );
 };

@@ -1,11 +1,11 @@
-import axios from 'axios';
-import * as SecureStore from 'expo-secure-store';
-import { Platform } from 'react-native';
+import axios from "axios";
+import * as SecureStore from "expo-secure-store";
+import { Platform } from "react-native";
 
 const BASE_URL = Platform.select({
-  ios: 'http://10.34.30.133:3000/api',    
-  android: 'http://10.0.2.2:3000/api', 
-  default: 'http://10.34.30.133:3000/api'
+  ios: "http://10.0.0.20:3000/api",
+  android: "http://10.0.0.20:3000/api",
+  default: "http://10.0.0.20:3000/api",
 });
 
 const api = axios.create({
@@ -15,7 +15,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
   async (config) => {
-    const token = await SecureStore.getItemAsync('accessToken');
+    const token = await SecureStore.getItemAsync("accessToken");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -23,7 +23,7 @@ api.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 let isRefreshing = false;
@@ -66,22 +66,22 @@ api.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      const response = await api.post('/auth/refresh');
+      const response = await api.post("/auth/refresh");
       const { accessToken } = response.data;
 
-      await SecureStore.setItemAsync('accessToken', accessToken);
+      await SecureStore.setItemAsync("accessToken", accessToken);
       api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-      
+
       processQueue(null, accessToken);
       return api(originalRequest);
     } catch (refreshError) {
       processQueue(refreshError, null);
-      await SecureStore.deleteItemAsync('accessToken');
+      await SecureStore.deleteItemAsync("accessToken");
       throw refreshError;
     } finally {
       isRefreshing = false;
     }
-  }
+  },
 );
 
 export default api;

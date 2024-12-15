@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react-native";
 import { useAuth } from "@/src/contexts/AuthContext";
-import { useAppTheme } from "@/src/constants/theme";
 import { Container, FullHeight, Layout } from "@/src/components/base/Layout";
 import { Text } from "@/src/components/base/CustomText";
 import { Input } from "@/src/components/base/Input";
 import { Button } from "@/src/components/base/Button";
-import { View } from "react-native";
+import { showToast } from "@/src/constants/toastMessage";
+import { router, useNavigation } from "expo-router";
+import { useAppTheme } from "../constants/theme";
 
 const LoginScreen: React.FC = () => {
-  const theme = useAppTheme();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("mohakgofficial@gmail.com");
-  const [password, setPassword] = useState("Password1234#");
+  const [password, setPassword] = useState("Mohakgupta02#");
   const [emailError, setEmailError] = useState("");
+  const theme = useAppTheme();
   const { signIn, isAuthenticated, user } = useAuth();
 
   const validateEmail = (email: string) => {
@@ -26,8 +27,22 @@ const LoginScreen: React.FC = () => {
   };
 
   const handleSignIn = async () => {
-    console.log("logging in");
-    await signIn(email, password);
+    try {
+      await signIn(email, password);
+      showToast({
+        title: "Successfully Logged In",
+        message: "",
+      });
+
+      router.push("/(app)/(tabs)");
+    } catch (err) {
+      console.log(err);
+      showToast({
+        type: "error",
+        title: "Error logging you in",
+        message: "",
+      });
+    }
   };
 
   return (

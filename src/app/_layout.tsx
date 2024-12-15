@@ -1,4 +1,3 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { Redirect, Slot, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -6,7 +5,7 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 import { ThemeProvider } from "../constants/theme";
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
-import LoadingScreen from "../components/base/Loading";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -37,35 +36,13 @@ export default function RootLayout() {
     return null;
   }
 
-  return <ThemeProvider>
-    <AuthProvider>
-      <RootLayoutNav />
-      {/* <Slot/> */}
-    </AuthProvider>
-  </ThemeProvider>;
-}
-
-function RootLayoutNav() {
-  const { isAuthenticated , isLoading} = useAuth();
-  
-  if(isLoading){
-    return <LoadingScreen/>
-  }
-
-  if (!isAuthenticated) {
-    //Auth Stack 
-    return <Redirect href="/login" />;
-  }
-
-  //Home stack/protected stack
-  return <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
-  
   return (
-    <Stack>
-      {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} /> */}
-      {/* <Stack.Screen name="auth/login/index" options={{ headerShown: false }} /> */}
-    </Stack>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider>
+        <AuthProvider>
+          <Slot />
+        </AuthProvider>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
